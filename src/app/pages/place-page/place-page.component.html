@@ -79,7 +79,7 @@
             <mat-panel-title>{{ categoryPlace.category.name }}</mat-panel-title>
           </mat-expansion-panel-header>
           <mat-card>
-            @if (place?.images?.length > 0) {
+            @if (place?.images?.length === 1) {
               <img mat-card-image [src]="place?.images?.[0]?.url" alt="">
             }
             <mat-card-content class="space-y-4">
