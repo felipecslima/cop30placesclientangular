@@ -1,0 +1,50 @@
+<mat-sidenav-container class="h-screen">
+  <mat-sidenav #sidenav mode="over" class="w-64 text-white">
+    <div class="p-4 text-xl font-semibold">BelRegiaMap</div>
+    <button mat-button class="w-full text-left">Mapa</button>
+    <button mat-button class="w-full text-left">Lugares</button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+    <mat-toolbar class="bg-green-200 flex">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="flex-1 center w-full text-center">Bel Regia Map</span>
+      <button mat-icon-button (click)="sidenavRight.toggle()">
+        <mat-icon>directions</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+  <mat-sidenav #sidenavRight mode="over" position="end" class="w-64 text-white">
+    <div class="p-4 text-xl font-semibold">Cidades</div>
+    <mat-accordion>
+      @for (city of cities; track city.id) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ city.city }}</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="flex">
+            <button (click)="setPlace(city); sidenavRight.close()" class="flex-1" mat-stroked-button>
+             Filtrar por {{ city.city }}
+            </button>
+          </div>
+          <mat-divider/>
+          @for (category of city.categories; track category.id) {
+            <div class="flex">
+              <button class="flex-1" mat-stroked-button>
+                {{ category.name }}
+              </button>
+            </div>
+          }
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </mat-sidenav>
+</mat-sidenav-container>

@@ -1,0 +1,8 @@
+@if (loading) {
+  <div class="fixed top-0 w-100">
+    <mat-progress-bar mode="indeterminate"/>
+  </div>
+}
+<main class="w-screen h-[calc(100dvh-56px)] sm:h-[calc(100dvh-64px)]">
+  <mapbox-map [places]="places"/>
+</main>

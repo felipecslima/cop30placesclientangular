@@ -1,0 +1,13 @@
+#map {
+  width: 100%;
+  height: 100dvh;
+  height: 100vh;
+}
+
+mat-icon {
+  color: var(--color-green-800);
+}
+
+.mat-toolbar {
+  background-color: var(--color-green-200);
+}
