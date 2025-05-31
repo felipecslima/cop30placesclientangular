@@ -67,6 +67,27 @@ export class ApiServices {
     );
   }
 
+
+  getCategoryPlacesByCategoryId(categoryId: number): Observable<CategoryPlace[]> {
+    const categoryPlaces: CategoryPlace[] = this.dataService.getCategoryPlaces();
+    if (categoryPlaces.length > 0) {
+      const categoryPlacesFilter = categoryPlaces.filter(cp => cp.category?.id == categoryId);
+      if (categoryPlacesFilter.length > 0) {
+        return of(categoryPlacesFilter);
+      }
+    }
+    const url = `${ environment.apiUrl }/category-places` +
+      `?filters[category][id][$eq]=${ categoryId }` +
+      `&populate[category][populate][city]=*` +
+      `&populate[place][populate]=*` +
+      `&pagination[page]=1&pagination[pageSize]=100`;
+
+    return this._http.get<CategoryPlaceResponse>(url).pipe(
+      map((response: CategoryPlaceResponse) => this.adjustResponse(response, true))
+    );
+  }
+
+
   getCategoryPlaces(): Observable<CategoryPlace[]> {
     const url = `${ environment.apiUrl }/category-places` +
       `?populate=*` +

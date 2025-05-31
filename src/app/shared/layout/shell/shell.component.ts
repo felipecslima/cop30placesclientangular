@@ -43,6 +43,8 @@ export class ShellComponent implements OnDestroy {
             categories: this.categories.filter(category => category.city.slug === city.slug)
           };
         });
+
+        this.dataService.setUpdateFilter()
       });
 
   }
@@ -51,7 +53,16 @@ export class ShellComponent implements OnDestroy {
   }
 
   setPlace(city: City) {
-    this.defineLocationServices.setPlaceId(city.id);
+    this.defineLocationServices.setCityId(city.id);
+    this.defineLocationServices.setCategory(undefined);
     this.dataService.setUpdateLocation();
+    this.dataService.setUpdateFilter()
+  }
+
+  setCategory(category: Category, city: City) {
+    this.defineLocationServices.setCityId(city.id);
+    this.defineLocationServices.setCategory(category.id);
+    this.dataService.setUpdateCategory();
+    this.dataService.setUpdateFilter()
   }
 }

@@ -12,6 +12,8 @@ export class DataServices {
   private _categories$ = new BehaviorSubject<Category[]>([]);
   private _cities$ = new BehaviorSubject<City[]>([]);
   private _updateLocation$ = new BehaviorSubject<number>(undefined);
+  private _updateCategory$ = new BehaviorSubject<number>(undefined);
+  private _updateFilter$ = new BehaviorSubject<number>(undefined);
 
   // Public readonly observables
   public readonly places$ = this._places$.asObservable();
@@ -20,6 +22,14 @@ export class DataServices {
 
   // UPDATE LOCATION
 
+  getUpdateFilter(): Observable<number> {
+    return this._updateFilter$.asObservable();
+  }
+
+  setUpdateFilter() {
+    this._updateFilter$.next(new Date().getTime());
+  }
+
   getUpdateLocation(): Observable<number> {
     return this._updateLocation$.asObservable();
   }
@@ -27,6 +37,15 @@ export class DataServices {
   setUpdateLocation() {
     this._updateLocation$.next(new Date().getTime());
   }
+
+  getUpdateCategory(): Observable<number> {
+    return this._updateCategory$.asObservable();
+  }
+
+  setUpdateCategory() {
+    this._updateCategory$.next(new Date().getTime());
+  }
+
 
   // -------- CATEGORY PLACES --------
 
@@ -68,6 +87,7 @@ export class DataServices {
 
   // -------- PLACES --------
 
+
   setPlaces(places: Place[]): void {
     this._places$.next([...places]);
   }
@@ -98,7 +118,16 @@ export class DataServices {
 
   // -------- CATEGORIES --------
 
+  getCategories$(): Observable<Category[]> {
+    return this._categories$.asObservable();
+  }
+
+  getCategories(): Category[] {
+    return this._categories$.getValue();
+  }
+
   setCategories(categories: Category[]): void {
+    console.log([...categories]);
     this._categories$.next([...categories]);
   }
 
@@ -121,7 +150,17 @@ export class DataServices {
 
   // -------- CITIES --------
 
+
+  getCities$(): Observable<City[]> {
+    return this._cities$.asObservable();
+  }
+
+  getCities(): City[] {
+    return this._cities$.getValue();
+  }
+
   setCities(cities: City[]): void {
+    console.log([...cities]);
     this._cities$.next([...cities]);
   }
 

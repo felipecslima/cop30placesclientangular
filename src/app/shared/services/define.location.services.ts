@@ -5,22 +5,30 @@ import { LocalStorageService } from './local-storage.service';
   providedIn: 'root'
 })
 export class DefineLocationServices {
-  DEFAULT_PLACE_ID = 2; // BELEM
-  placeIdStored = 'PLACE_ID';
+  DEFAULT_CITY_ID = 2; // BELEM
+  cityIdStored = 'CITY_ID';
+  categoryIdStored = 'CATEGORY_ID';
 
   constructor(private localStorageService: LocalStorageService) {
-    const placeIdStored = this.localStorageService.getItem(this.placeIdStored);
+    const placeIdStored = this.localStorageService.getItem(this.cityIdStored);
     if (!placeIdStored) {
-      this.localStorageService.setItem(this.placeIdStored, this.DEFAULT_PLACE_ID);
+      this.localStorageService.setItem(this.cityIdStored, this.DEFAULT_CITY_ID);
     }
   }
 
-  getPlaceId(): number {
-    return this.localStorageService.getItem(this.placeIdStored);
+  getCityId(): number {
+    return this.localStorageService.getItem(this.cityIdStored);
   }
 
-  setPlaceId(placeId: number): void {
-    this.localStorageService.setItem(this.placeIdStored, placeId);
+  setCityId(cityId: number): void {
+    this.localStorageService.setItem(this.cityIdStored, cityId);
   }
 
+  setCategory(categoryId: number): void {
+    this.localStorageService.setItem(this.categoryIdStored, categoryId);
+  }
+
+  getCategoryId(): number {
+    return this.localStorageService.getItem(this.categoryIdStored);
+  }
 }

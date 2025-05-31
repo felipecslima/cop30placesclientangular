@@ -38,7 +38,7 @@
           <mat-divider/>
           @for (category of city.categories; track category.id) {
             <div class="flex">
-              <button class="flex-1" mat-stroked-button>
+              <button (click)="setCategory(category, city); sidenavRight.close()" class="flex-1" mat-stroked-button>
                 {{ category.name }}
               </button>
             </div>

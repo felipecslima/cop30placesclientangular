@@ -3,6 +3,15 @@
     <mat-progress-bar mode="indeterminate"/>
   </div>
 }
-<main class="w-screen h-[calc(100dvh-56px)] sm:h-[calc(100dvh-64px)]">
+<main class="w-screen h-[calc(100dvh-56px)] sm:h-[calc(100dvh-64px)] relative">
+  <div class="absolute z-10 p-4">
+    <mat-chip-set aria-label="Filtros do mapa">
+      @for (filtro of filters; track filtro.value) {
+        <mat-chip>
+          {{ filtro.label }}
+        </mat-chip>
+      }
+    </mat-chip-set>
+  </div>
   <mapbox-map [places]="places"/>
 </main>
