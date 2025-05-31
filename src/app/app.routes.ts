@@ -4,7 +4,11 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./pages/map.component').then((m) => m.MapComponent),
+      import('./pages/map-page/map.component').then((m) => m.MapComponent),
   },
-  // outras rotas aqui, se necessário
+  {
+    path: 'lugar/:placeSlug',
+    loadComponent: () =>
+      import('./pages/place-page/place-page.component').then((m) => m.PlacePageComponent),
+  },
 ];

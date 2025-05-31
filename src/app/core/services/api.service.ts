@@ -26,10 +26,29 @@ export class ApiServices {
     );
   }
 
-  getPlacesByCityId(cityId: number): Observable<Place[]> {
-    const url = `${ environment.apiUrl }/places?pagination[page]=1&pagination[pageSize]=100&filters[city][id][$eq]=${ cityId }&populate=*`;
+  getPlaceBySlug(slug: string): Observable<Place | null> {
+    const url = `${environment.apiUrl}/places` +
+      `?filters[slug][$eq]=${slug}` +
+      `&populate=*` +
+      `&pagination[page]=1&pagination[pageSize]=1`;
+
     return this._http.get<PlaceResponse>(url).pipe(
-      map(response => this.adjustResponse(response))
+      map(response => {
+        const data = this.adjustResponse(response);
+        return data.length > 0 ? data[0] : null;
+      })
+    );
+  }
+
+  getCategoryPlacesByPlaceSlug(slug: string): Observable<CategoryPlace[]> {
+    const url = `${environment.apiUrl}/category-places` +
+      `?filters[place][slug][$eq]=${slug}` +
+      `&populate[place][populate]=*` +
+      `&populate[category][populate][city]=*` +
+      `&pagination[page]=1&pagination[pageSize]=100`;
+
+    return this._http.get<CategoryPlaceResponse>(url).pipe(
+      map((response: CategoryPlaceResponse) => this.adjustResponse(response, true))
     );
   }
 
@@ -47,7 +66,6 @@ export class ApiServices {
   }
 
   getCategoryPlacesByCityId(cityId: number): Observable<CategoryPlace[]> {
-
     const categoryPlaces: CategoryPlace[] = this.dataService.getCategoryPlaces();
     if (categoryPlaces.length > 0) {
       const categoryPlacesFilter = categoryPlaces.filter(cp => cp.category?.city?.id == cityId);

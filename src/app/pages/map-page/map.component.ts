@@ -1,16 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MapboxMapComponent } from '../features/mapbox-map/mapbox-map.component';
-import { ApiServices, CategoryPlace, Place } from '../core/services/api.service';
+import { MapboxMapComponent } from '../../features/mapbox-map/mapbox-map.component';
+import { ApiServices, CategoryPlace, Place } from '../../core/services/api.service';
 import { distinctUntilChanged, filter, map, Subscription, switchMap, tap } from 'rxjs';
-import { AutoUnsubscribe, CombineSubscriptions } from '../shared/decorators/auto-unsubscribe.decorator';
-import { DataServices } from '../shared/services/data.services';
-import { DefineLocationServices } from '../shared/services/define.location.services';
-import { MaterialModule } from '../shared/ material.module';
-import { SnackbarService } from '../shared/services/ snackbar.service';
+import { AutoUnsubscribe, CombineSubscriptions } from '../../shared/decorators/auto-unsubscribe.decorator';
+import { DataServices } from '../../shared/services/data.services';
+import { DefineLocationServices } from '../../shared/services/define.location.services';
+import { MaterialModule } from '../../shared/ material.module';
+import { SnackbarService } from '../../shared/services/ snackbar.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-map',
-  imports: [MapboxMapComponent, MaterialModule],
+  imports: [MapboxMapComponent, MaterialModule, NgIf],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
@@ -32,6 +33,7 @@ export class MapComponent implements OnInit, OnDestroy {
       filter(() => !this.defineLocationServices.getCategoryId()),
       map(() => this.defineLocationServices.getCityId()),
       distinctUntilChanged(),
+      filter(() => !!this.defineLocationServices.getCityId()),
       tap(() => this.loading = true),
       switchMap((cityId: number) => this.apiServices.getCategoryPlacesByCityId(cityId)),
       tap((categoryPlaces: CategoryPlace[]) => {
@@ -100,8 +102,6 @@ export class MapComponent implements OnInit, OnDestroy {
     const categoryId = this.defineLocationServices.getCategoryId();
     const category = categories.find(c => c.id === categoryId);
 
-    console.log(city, cityId, cities);
-
     const filters = [];
 
     if (city) {
@@ -121,4 +121,15 @@ export class MapComponent implements OnInit, OnDestroy {
     this.filters = filters;
   }
 
+  removeFilterCategory() {
+    const cityId = this.defineLocationServices.getCityId();
+    this.defineLocationServices.setCategory(undefined);
+    this.defineLocationServices.setCityId(undefined);
+    this.dataService.setUpdateLocation();
+    setTimeout(() => {
+      this.defineLocationServices.setCityId(cityId);
+      this.dataService.setUpdateLocation();
+      this.dataService.setUpdateFilter();
+    })
+  }
 }

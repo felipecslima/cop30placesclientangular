@@ -127,7 +127,6 @@ export class DataServices {
   }
 
   setCategories(categories: Category[]): void {
-    console.log([...categories]);
     this._categories$.next([...categories]);
   }
 
@@ -160,7 +159,6 @@ export class DataServices {
   }
 
   setCities(cities: City[]): void {
-    console.log([...cities]);
     this._cities$.next([...cities]);
   }
 

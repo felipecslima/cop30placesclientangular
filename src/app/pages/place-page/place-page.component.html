@@ -1,0 +1,132 @@
+@if (loading) {
+  <div class="fixed top-0 w-dvh">
+    <mat-progress-bar mode="indeterminate"/>
+  </div>
+}
+<div *ngIf="place" class="relative flex items-center min-h-[50dvh] isolate overflow-hidden py-24 sm:py-32">
+  <!-- Imagem de fundo -->
+  <div
+    class="absolute inset-0 -z-20 bg-cover bg-center"
+    [ngStyle]="{
+      'background-image': 'url(' + place?.images?.[0]?.url + ')'
+    }"
+  ></div>
+
+  <!-- Overlay com escurecimento -->
+  <div class="absolute inset-0 -z-10 bg-black/80"></div>
+
+  <!-- Conteúdo centralizado -->
+  <div class="relative z-10 flex items-center justify-center px-6 text-center text-white w-full">
+    <div class="max-w-3xl w-full space-y-10">
+      <h1 class="text-5xl font-bold tracking-tight sm:text-7xl animate-fadeInUp">
+        {{ place?.name }}
+      </h1>
+
+      <div class="flex flex-col button-white sm:flex-row justify-center gap-4 flex-wrap">
+        <a
+          *ngIf="place?.location"
+          target="_blank"
+          [href]="'https://moovitapp.com/?to=' + encodeURIComponent(place.name) + '&to_lat=' + place.location.lat + '&to_lon=' + place.location.lng"
+          mat-stroked-button
+        >
+          Moovit
+        </a>
+
+        <a
+          *ngIf="place?.location"
+          target="_blank"
+          [href]="'https://www.google.com/maps/search/?api=1&query=' + place.location.lat + ',' + place.location.lng"
+          mat-stroked-button
+        >
+          Google Maps
+        </a>
+
+        <a
+          *ngIf="place?.location"
+          target="_blank"
+          [href]="'https://waze.com/ul?ll=' + place.location.lat + ',' + place.location.lng + '&navigate=yes'"
+          mat-stroked-button
+        >
+          Waze
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="place" class="relative px-4 sm:px-6 lg:px-8 py-12">
+  <div class="max-w-3xl mx-auto text-center space-y-6">
+    @for (detail of place.details; track detail) {
+      @for (children of detail.children; track children) {
+        <p
+          class=""
+          [innerHTML]="children.text"
+        ></p>
+      }
+    }
+  </div>
+</div>
+
+<div *ngIf="place" class="relative px-4 sm:px-6 lg:px-8 py-12">
+  <div class="max-w-3xl mx-auto space-y-6">
+    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl animate-fadeInUp">
+      O que fazer aqui:
+    </h2>
+    <mat-accordion>
+      @for (categoryPlace of categoryPlaces; track categoryPlace.id) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ categoryPlace.category.name }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-card>
+            @if (place?.images?.length > 0) {
+              <img mat-card-image [src]="place?.images?.[0]?.url" alt="">
+            }
+            <mat-card-content class="space-y-4">
+              <!-- Carrossel de imagens -->
+              @if (place?.images?.length > 1) {
+                <swiper-container
+                  slides-per-view="1.3"
+                  space-between="12"
+                  pagination="true"
+                  navigation="true"
+                  scrollbar="true"
+                >
+                  <swiper-slide *ngFor="let image of place?.images">
+                    <img
+                      [src]="image.url"
+                      class="rounded-xl shadow-md w-full h-60 object-cover cursor-pointer"
+                      (click)="openImage(image.url)"
+                    />
+                  </swiper-slide>
+                </swiper-container>
+              }
+              <!-- Textos -->
+              <div class="pt-4"></div>
+              @for (detail of categoryPlace.details; track detail) {
+                @for (children of detail.children; track children) {
+                  <p class="text-base leading-relaxed" [innerHTML]="children.text"></p>
+                }
+              }
+            </mat-card-content>
+          </mat-card>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+
+
+  </div>
+</div>
+
+<!-- Modal fullscreen -->
+<div
+  *ngIf="selectedImage"
+  class="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+  (click)="selectedImage = null"
+>
+  <img
+    [src]="selectedImage"
+    alt="Imagem ampliada"
+    class="max-w-full max-h-full rounded-lg shadow-xl"
+  />
+</div>

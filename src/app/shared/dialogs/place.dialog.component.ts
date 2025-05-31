@@ -3,9 +3,10 @@ import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet } from '@angular/material/bottom-
 import { Place } from '../../core/services/api.service';
 import { MaterialModule } from '../ material.module';
 import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [MaterialModule, NgIf],
+  imports: [MaterialModule, NgIf, RouterLink],
   selector: 'place-dialog',
   standalone: true,
   template: `
@@ -24,7 +25,7 @@ import { NgIf } from '@angular/common';
       <mat-card-actions>
         <div class="flex gap-1 w-100">
           <button class="flex-1" (click)="matBottomSheet.dismiss()" mat-stroked-button>Voltar</button>
-          <button class="flex-1" color="primary" mat-stroked-button>Mais detalhes</button>
+          <a class="flex-1" (click)="matBottomSheet.dismiss()" [routerLink]="url" color="primary" mat-stroked-button>Mais detalhes</a>
         </div>
 
       </mat-card-actions>
@@ -34,12 +35,13 @@ import { NgIf } from '@angular/common';
   styles: ``
 })
 export class PlaceDialogComponent implements AfterViewInit, OnDestroy {
+  url: string;
 
   constructor(
     public matBottomSheet: MatBottomSheet,
     @Inject(MAT_BOTTOM_SHEET_DATA) public place: Place,
   ) {
-    console.log('placeDialog', place);
+    this.url = `/lugar/${ place.slug }`;
   }
 
   ngAfterViewInit(): void {

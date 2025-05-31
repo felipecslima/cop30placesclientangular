@@ -1,17 +1,11 @@
 <mat-sidenav-container class="h-screen">
-  <mat-sidenav #sidenav mode="over" class="w-64 text-white">
-    <div class="p-4 text-xl font-semibold">BelRegiaMap</div>
-    <button mat-button class="w-full text-left">Mapa</button>
-    <button mat-button class="w-full text-left">Lugares</button>
-  </mat-sidenav>
-
   <mat-sidenav-content>
 
     <mat-toolbar class="bg-green-200 flex">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
+      <button mat-icon-button routerLink='/'>
+        <mat-icon><img src="assets/favicon/favicon-96x96.png" alt="Logo Bel Régia Map"></mat-icon>
       </button>
-      <span class="flex-1 center w-full text-center">Bel Regia Map</span>
+      <span class="flex-1 center w-full">Bel Regia Map</span>
       <button mat-icon-button (click)="sidenavRight.toggle()">
         <mat-icon>directions</mat-icon>
       </button>
