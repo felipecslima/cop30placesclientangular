@@ -10,31 +10,36 @@ export class CategoryService {
       icon: 'nature_people',
       color: '#9AE600',
       category: 'Lazer',
-      colorText: '#000000'
+      colorText: '#000000',
+      markerPin: 'assets/categories/Lazer.png'
     },
     {
       icon: 'history_edu',
       color: '#FF6900',
       category: 'Cultura',
-      colorText: '#000000'
+      colorText: '#000000',
+      markerPin: 'assets/categories/Cultura.png'
     },
     {
       icon: 'dining',
       color: '#FDC700',
       category: 'Gastronomia',
-      colorText: '#000000'
+      colorText: '#000000',
+      markerPin: 'assets/categories/Gastronomia.png'
     },
     {
       icon: 'shopping_cart',
       color: '#9810FA',
       category: 'Comercial',
-      colorText: '#FFFFFF'
+      colorText: '#FFFFFF',
+      markerPin: 'assets/categories/Comercial.png'
     },
     {
       icon: 'boat_bus',
       color: '#00A6F4',
       category: 'Infraestrutura',
-      colorText: '#000000'
+      colorText: '#000000',
+      markerPin: 'assets/categories/Infraestrutura.png'
     }
   ];
 

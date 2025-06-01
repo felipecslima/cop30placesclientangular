@@ -227,6 +227,7 @@ export interface IconInfo {
   color: string;
   category: string;
   colorText: string;
+  markerPin: string;
 }
 
 export interface Meta {

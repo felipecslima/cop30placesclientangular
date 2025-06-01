@@ -75,20 +75,6 @@ export class MapboxMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
-  private getPinByCategoryName(categoryName: string): HTMLElement {
-    if (this.iconCache.has(categoryName)) {
-      return this.iconCache.get(categoryName)!.cloneNode(true) as HTMLElement;
-    }
-
-    const def = this.pinDefinitions[categoryName];
-    if (!def) {
-      return this.createSvgPin('location_on', '#ccc', '#000'); // fallback
-    }
-
-    const el = this.createSvgPin(def.icon, def.color, def.colorText);
-    this.iconCache.set(categoryName, el);
-    return el.cloneNode(true) as HTMLElement;
-  }
 
   onMapMoved(): void {
     const center = this.map.getCenter();
@@ -107,9 +93,7 @@ export class MapboxMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     const bounds = new mapboxgl.LngLatBounds();
     for (const categoryPlaces of this.categoryPlaces) {
       const { place, category } = categoryPlaces;
-      const el = this.getPinByCategoryName(category.name);
-
-      console.log('updateMarkers');
+      const el = this.getImagePinByCategoryName(category.name);
 
       const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
         .setLngLat(place.location)
@@ -132,50 +116,22 @@ export class MapboxMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     }
   }
 
-  createSvgPin(icon: string, color: string = '#000', colorIcon: string = '#fff'): HTMLElement {
-    const el = document.createElement('div');
+  private getImagePinByCategoryName(categoryName: string): HTMLElement {
+    if (this.iconCache.has(categoryName)) {
+      return this.iconCache.get(categoryName)!.cloneNode(true) as HTMLElement;
+    }
 
-    el.innerHTML = `
-    <svg 
-      xmlns="http://www.w3.org/2000/svg"
-      width="32"
-      height="44"
-      viewBox="0 0 40 56"
-      shape-rendering="geometricPrecision"
-    >
-      <defs>
-        <filter id="drop-shadow" x="-50%" y="-50%" width="200%" height="200%">
-          <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="rgba(0,0,0,0.35)" />
-        </filter>
-      </defs>
+    const def = this.pinDefinitions[categoryName];
+    const img = document.createElement('img');
 
-      <!-- PIN PATH (gota) -->
-      <path 
-        d="M20 0
-           C30.5 0, 40 9, 40 20
-           C40 32, 20 56, 20 56
-           C20 56, 0 32, 0 20
-           C0 9, 9.5 0, 20 0Z"
-        fill="${color}"
-        filter="url(#drop-shadow)"
-      />
+    img.src = def?.markerPin || 'assets/pins/default.png';
+    img.alt = categoryName;
+    img.width = 40;
+    img.height = 56;
+    img.style.objectFit = 'contain';
 
-      <!-- ICON TEXT -->
-      <text 
-        x="50%" 
-        y="60%" 
-        text-anchor="middle"
-        fill="${colorIcon}"
-        font-size="20"
-        font-family="Material Symbols Rounded"
-        font-variation-settings="'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48"
-      >
-        ${icon}
-      </text>
-    </svg>
-  `;
-
-    return el.firstElementChild as HTMLElement;
+    this.iconCache.set(categoryName, img);
+    return img.cloneNode(true) as HTMLElement;
   }
 
   onMarkerClick(place: Place) {
