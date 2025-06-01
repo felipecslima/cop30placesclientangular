@@ -6,16 +6,18 @@
 <main class="w-screen h-[calc(100dvh-56px)] sm:h-[calc(100dvh-64px)] relative">
   <div class="absolute z-10 p-4">
     <mat-chip-set aria-label="Filtros do mapa">
-      @for (filtro of filters; track filtro.value; let index = $index) {
-        <mat-chip>
-          {{ filtro.label }}
-          <button *ngIf="index > 0" matChipRemove (click)="removeFilterCategory()">
+      @for (filter of filters; track filter.value; let index = $index) {
+        <mat-chip
+          [style.background-color]="filter?.bgColor">
+          <span [style.color]="filter?.color">{{ filter.label }}</span>
+
+          <button [style.color]="filter?.color" *ngIf="index > 0" matChipRemove (click)="removeFilterCategory()">
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
       }
     </mat-chip-set>
   </div>
-  <mapbox-map [places]="places"/>
+  <mapbox-map [categoryPlaces]="categoryPlaces"/>
 
 </main>

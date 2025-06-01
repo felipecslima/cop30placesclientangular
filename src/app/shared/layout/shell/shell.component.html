@@ -13,29 +13,32 @@
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
   </mat-sidenav-content>
-  <mat-sidenav #sidenavRight mode="over" position="end" class="w-64 text-white">
+  <mat-sidenav #sidenavRight mode="over" position="end" class="w-64 max-w-300 text-white">
     <div class="p-4 text-xl font-semibold">Cidades</div>
     <mat-accordion>
       @for (city of cities; track city.id) {
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="city.id === defineLocationServices.getCityId()">
           <mat-expansion-panel-header>
             <mat-panel-title>{{ city.city }}</mat-panel-title>
           </mat-expansion-panel-header>
-
-          <div class="flex">
-            <button (click)="setPlace(city); sidenavRight.close()" class="flex-1" mat-stroked-button>
+          <mat-nav-list class="menu">
+            <button class="city-btn" (click)="setPlace(city); sidenavRight.close()" type="button" mat-list-item>
               Filtrar por {{ city.city }}
             </button>
-          </div>
-          <mat-divider/>
-
-          @for (category of city.categories; track category.id) {
-            <div class="flex">
-              <button (click)="setCategory(category, city); sidenavRight.close()" class="flex-1" mat-stroked-button>
-                {{ category.name }}
+            @for (category of city.categories; track category.id) {
+              <button
+                style="background-color: {{ category?.extra?.color }}"
+                (click)="setCategory(category, city); sidenavRight.close()"
+                type="button" mat-list-item
+                [activated]="category.id === defineLocationServices.getCategoryId()">
+                              <span class="flex gap-1 items-center " style="color: {{ category?.extra?.colorText }}">
+                 <mat-icon *ngIf="category.id === defineLocationServices.getCategoryId()">check</mat-icon>
+                 <mat-icon>{{ category?.extra?.icon }}</mat-icon>
+                                {{ category.name }}
+               </span>
               </button>
-            </div>
-          }
+            }
+          </mat-nav-list>
         </mat-expansion-panel>
       }
     </mat-accordion>

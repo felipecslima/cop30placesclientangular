@@ -6,6 +6,7 @@ import { DefineLocationServices } from '../../services/define.location.services'
 import { DataServices } from '../../services/data.services';
 import { slideInAnimation } from '../../services/route-animations';
 import { Router, RouterOutlet } from '@angular/router';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'layout-shell',
@@ -24,9 +25,10 @@ export class ShellComponent implements OnDestroy {
   categories: Category[] = [];
 
   constructor(
+    private categoryService: CategoryService,
     private router: Router,
     private dataService: DataServices,
-    private defineLocationServices: DefineLocationServices,
+    public defineLocationServices: DefineLocationServices,
     private apiServices: ApiServices) {
     this.subscriptions = this.apiServices.getCities()
       .pipe(
@@ -42,9 +44,15 @@ export class ShellComponent implements OnDestroy {
 
         this.categories = categories;
         this.cities = this.cities.map(city => {
+          const categories = this.categories.filter(category => category.city.slug === city.slug);
           return {
             ...city,
-            categories: this.categories.filter(category => category.city.slug === city.slug)
+            categories: categories.map(c => {
+              return {
+                ...c,
+                extra: this.categoryService.getIconByCategory(c.name)
+              };
+            })
           };
         });
 

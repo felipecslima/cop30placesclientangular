@@ -8,6 +8,24 @@ mat-icon {
   color: var(--color-green-800);
 }
 
+.menu{
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.menu mat-icon {
+  color: inherit;
+}
+
+.menu .city-btn {
+  background-color: var(--color-gray-400);
+}
+
 .mat-toolbar {
   background-color: var(--color-green-200);
+}
+
+.mat-drawer {
+  max-width: 320px;
 }

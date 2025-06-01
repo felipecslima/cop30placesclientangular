@@ -219,6 +219,14 @@ export interface Category {
     publishedAt: string;
   };
   image: string | null;
+  extra?: IconInfo;
+}
+
+export interface IconInfo {
+  icon: string;
+  color: string;
+  category: string;
+  colorText: string;
 }
 
 export interface Meta {

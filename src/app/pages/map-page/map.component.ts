@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MapboxMapComponent } from '../../features/mapbox-map/mapbox-map.component';
-import { ApiServices, CategoryPlace, Place } from '../../core/services/api.service';
+import { ApiServices, CategoryPlace } from '../../core/services/api.service';
 import { distinctUntilChanged, filter, map, Subscription, switchMap, tap } from 'rxjs';
 import { AutoUnsubscribe, CombineSubscriptions } from '../../shared/decorators/auto-unsubscribe.decorator';
 import { DataServices } from '../../shared/services/data.services';
 import { DefineLocationServices } from '../../shared/services/define.location.services';
 import { MaterialModule } from '../../shared/ material.module';
-import { SnackbarService } from '../../shared/services/ snackbar.service';
+import { SnackbarService } from '../../shared/services/snackbar.service';
 import { NgIf } from '@angular/common';
+import { CategoryService } from '../../shared/services/category.service';
 
 @Component({
   selector: 'app-map',
@@ -20,10 +21,11 @@ export class MapComponent implements OnInit, OnDestroy {
   @CombineSubscriptions()
   subscriptions: Subscription | undefined;
   loading = false;
-  places: Place[] = [];
-  filters: { label: string; value: number }[] = [];
+  categoryPlaces: CategoryPlace[] = [];
+  filters: { label: string; value: number, bgColor?: string, color?: string }[] = [];
 
   constructor(
+    private categoryService: CategoryService,
     private snackBarService: SnackbarService,
     private dataService: DataServices,
     private defineLocationServices: DefineLocationServices,
@@ -87,10 +89,13 @@ export class MapComponent implements OnInit, OnDestroy {
     this.dataService.mergeCategoryPlaces(categoryPlaces);
 
     this.loading = false;
-    // Atualiza this.places com os Places válidos
-    this.places = categoryPlaces
-      .filter(cp => !!cp.place)
-      .map(cp => cp.place);
+    this.categoryPlaces = categoryPlaces.map(cp => {
+      const extra = this.categoryService.getIconByCategory(cp.category.name);
+      return {
+        ...cp,
+        category: { ...cp.category, extra }
+      };
+    });
   }
 
   setFilters() {
@@ -112,12 +117,14 @@ export class MapComponent implements OnInit, OnDestroy {
     }
 
     if (category) {
+      const extra = this.categoryService.getIconByCategory(category.name);
       filters.push({
         label: category.name,
         value: category.id,
+        bgColor: extra?.color,
+        color: extra?.colorText,
       });
     }
-
     this.filters = filters;
   }
 
@@ -130,6 +137,6 @@ export class MapComponent implements OnInit, OnDestroy {
       this.defineLocationServices.setCityId(cityId);
       this.dataService.setUpdateLocation();
       this.dataService.setUpdateFilter();
-    }, 10)
+    }, 10);
   }
 }

@@ -5,7 +5,7 @@ import { AutoUnsubscribe, CombineSubscriptions } from '../../shared/decorators/a
 import { DataServices } from '../../shared/services/data.services';
 import { DefineLocationServices } from '../../shared/services/define.location.services';
 import { MaterialModule } from '../../shared/ material.module';
-import { SnackbarService } from '../../shared/services/ snackbar.service';
+import { SnackbarService } from '../../shared/services/snackbar.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgForOf, NgIf, NgStyle } from '@angular/common';
 
