@@ -32,7 +32,8 @@ export class MapboxMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   myLatLong: [number, number] = [-48.5012, -1.4558];
   map!: mapboxgl.Map;
   markers: mapboxgl.Marker[] = [];
-
+  userMarker?: mapboxgl.Marker;
+  
   constructor(
     private localStorageService: LocalStorageService,
     private dialogsService: DialogsService) {
@@ -120,15 +121,21 @@ export class MapboxMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       (position) => {
         const lng = position.coords.longitude;
         const lat = position.coords.latitude;
-
-        this.localStorageService.setItem(this.MY_LAT_LON_STORAGE_KEY, [lng, lat]);
         this.myLatLong = [lng, lat];
-        // Adiciona um marcador azul para o usuário
-        new mapboxgl.Marker({ color: '#2196F3' })
-          .setLngLat(this.myLatLong)
-          .addTo(this.map);
 
-        // Centraliza e faz zoom na posição do usuário
+        this.localStorageService.setItem(this.MY_LAT_LON_STORAGE_KEY, this.myLatLong);
+
+        // Se já existe um marcador do usuário, atualiza a posição
+        if (this.userMarker) {
+          this.userMarker.setLngLat(this.myLatLong);
+        } else {
+          // Cria novo marcador
+          this.userMarker = new mapboxgl.Marker({ color: '#2196F3' })
+            .setLngLat(this.myLatLong)
+            .addTo(this.map);
+        }
+
+        // Centraliza o mapa na localização do usuário
         this.map.flyTo({
           center: this.myLatLong,
           zoom: 14,

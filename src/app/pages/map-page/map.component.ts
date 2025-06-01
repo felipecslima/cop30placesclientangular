@@ -130,6 +130,6 @@ export class MapComponent implements OnInit, OnDestroy {
       this.defineLocationServices.setCityId(cityId);
       this.dataService.setUpdateLocation();
       this.dataService.setUpdateFilter();
-    })
+    }, 10)
   }
 }

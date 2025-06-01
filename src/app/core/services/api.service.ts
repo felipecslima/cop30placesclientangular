@@ -27,8 +27,8 @@ export class ApiServices {
   }
 
   getPlaceBySlug(slug: string): Observable<Place | null> {
-    const url = `${environment.apiUrl}/places` +
-      `?filters[slug][$eq]=${slug}` +
+    const url = `${ environment.apiUrl }/places` +
+      `?filters[slug][$eq]=${ slug }` +
       `&populate=*` +
       `&pagination[page]=1&pagination[pageSize]=1`;
 
@@ -41,8 +41,8 @@ export class ApiServices {
   }
 
   getCategoryPlacesByPlaceSlug(slug: string): Observable<CategoryPlace[]> {
-    const url = `${environment.apiUrl}/category-places` +
-      `?filters[place][slug][$eq]=${slug}` +
+    const url = `${ environment.apiUrl }/category-places` +
+      `?filters[place][slug][$eq]=${ slug }` +
       `&populate[place][populate]=*` +
       `&populate[category][populate][city]=*` +
       `&pagination[page]=1&pagination[pageSize]=100`;
@@ -67,7 +67,13 @@ export class ApiServices {
 
   getCategoryPlacesByCityId(cityId: number): Observable<CategoryPlace[]> {
     const categoryPlaces: CategoryPlace[] = this.dataService.getCategoryPlaces();
-    if (categoryPlaces.length > 0) {
+    const cities = categoryPlaces.map((categoryPlace: CategoryPlace) => {
+      return categoryPlace.category.city.id;
+    });
+
+    const uniqueCities = [...new Set(cities)];
+
+    if (categoryPlaces.length > 0 && uniqueCities.length > 1) {
       const categoryPlacesFilter = categoryPlaces.filter(cp => cp.category?.city?.id == cityId);
       if (categoryPlacesFilter.length > 0) {
         return of(categoryPlacesFilter);
