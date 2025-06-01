@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { LayoutModule } from './shared/layout.module';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PwaService } from './core/pwa.service';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +9,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     LayoutModule,
   ],
-  providers: [
-  ]
+  providers: []
 })
 export class AppComponent {
+  constructor(pwaService: PwaService) {
+  }
+
 }

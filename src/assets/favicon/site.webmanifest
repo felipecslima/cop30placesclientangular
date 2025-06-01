@@ -1,21 +1,28 @@
 {
-  "name": "Bel Régia Map",
-  "short_name": "BRM",
-  "icons": [
-    {
-      "src": "/web-app-manifest-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/web-app-manifest-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "theme_color": "#b9f8cf",
-  "background_color": "#b9f8cf",
-  "display": "standalone"
+    "theme_color": "#b9f8cf",
+    "background_color": "#b9f8cf",
+    "icons":
+    [
+        {
+            "purpose": "maskable",
+            "sizes": "192x192",
+            "src": "web-app-manifest-192x192.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "web-app-manifest-512x512.png",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait",
+    "display": "standalone",
+    "dir": "auto",
+    "lang": "pt-BR",
+    "name": "Bel Régia Map",
+    "short_name": "BRM",
+    "start_url": "https://belregiamap.netlify.app",
+    "scope": "https://belregiamap.netlify.app",
+    "id": "https://belregiamap.netlify.app"
 }

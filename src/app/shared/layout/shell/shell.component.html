@@ -1,6 +1,5 @@
 <mat-sidenav-container class="h-screen">
   <mat-sidenav-content>
-
     <mat-toolbar class="bg-green-200 flex">
       <button mat-icon-button routerLink='/'>
         <mat-icon><img src="assets/favicon/favicon-96x96.png" alt="Logo Bel Régia Map"></mat-icon>
@@ -10,11 +9,9 @@
         <mat-icon>directions</mat-icon>
       </button>
     </mat-toolbar>
-
     <div [@routeAnimations]="prepareRoute(outlet)">
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
-
   </mat-sidenav-content>
   <mat-sidenav #sidenavRight mode="over" position="end" class="w-64 text-white">
     <div class="p-4 text-xl font-semibold">Cidades</div>
@@ -31,6 +28,7 @@
             </button>
           </div>
           <mat-divider/>
+
           @for (category of city.categories; track category.id) {
             <div class="flex">
               <button (click)="setCategory(category, city); sidenavRight.close()" class="flex-1" mat-stroked-button>
