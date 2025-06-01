@@ -67,13 +67,15 @@ export class ApiServices {
 
   getCategoryPlacesByCityId(cityId: number): Observable<CategoryPlace[]> {
     const categoryPlaces: CategoryPlace[] = this.dataService.getCategoryPlaces();
-    const cities = categoryPlaces.map((categoryPlace: CategoryPlace) => {
-      return categoryPlace.category.city.id;
+
+    const categories = categoryPlaces.map((categoryPlace: CategoryPlace) => {
+      return categoryPlace.category.id;
     });
 
-    const uniqueCities = [...new Set(cities)];
+    const uniqueCategories = [...new Set(categories)];
 
-    if (categoryPlaces.length > 0 && uniqueCities.length > 1) {
+
+    if (categoryPlaces.length > 0 && uniqueCategories.length > 1) {
       const categoryPlacesFilter = categoryPlaces.filter(cp => cp.category?.city?.id == cityId);
       if (categoryPlacesFilter.length > 0) {
         return of(categoryPlacesFilter);

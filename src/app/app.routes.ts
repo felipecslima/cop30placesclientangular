@@ -5,10 +5,12 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./pages/map-page/map.component').then((m) => m.MapComponent),
+    data: { animation: 'Home' }
   },
   {
     path: 'lugar/:placeSlug',
     loadComponent: () =>
       import('./pages/place-page/place-page.component').then((m) => m.PlacePageComponent),
+    data: { animation: 'PlacePage' }
   },
 ];

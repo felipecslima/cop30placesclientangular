@@ -33,7 +33,7 @@ export class MapboxMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   map!: mapboxgl.Map;
   markers: mapboxgl.Marker[] = [];
   userMarker?: mapboxgl.Marker;
-  
+
   constructor(
     private localStorageService: LocalStorageService,
     private dialogsService: DialogsService) {

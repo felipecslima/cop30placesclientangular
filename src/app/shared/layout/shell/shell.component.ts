@@ -4,12 +4,15 @@ import { AutoUnsubscribe, CombineSubscriptions } from '../../decorators/auto-uns
 import { Subscription, switchMap, tap } from 'rxjs';
 import { DefineLocationServices } from '../../services/define.location.services';
 import { DataServices } from '../../services/data.services';
+import { slideInAnimation } from '../../services/route-animations';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'layout-shell',
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.css',
   standalone: false,
+  animations: [slideInAnimation]
 })
 @AutoUnsubscribe()
 export class ShellComponent implements OnDestroy {
@@ -21,6 +24,7 @@ export class ShellComponent implements OnDestroy {
   categories: Category[] = [];
 
   constructor(
+    private router: Router,
     private dataService: DataServices,
     private defineLocationServices: DefineLocationServices,
     private apiServices: ApiServices) {
@@ -44,9 +48,13 @@ export class ShellComponent implements OnDestroy {
           };
         });
 
-        this.dataService.setUpdateFilter()
+        this.dataService.setUpdateFilter();
       });
 
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet?.activatedRouteData?.['animation'];
   }
 
   ngOnDestroy(): void {
@@ -56,13 +64,15 @@ export class ShellComponent implements OnDestroy {
     this.defineLocationServices.setCityId(city.id);
     this.defineLocationServices.setCategory(undefined);
     this.dataService.setUpdateLocation();
-    this.dataService.setUpdateFilter()
+    this.dataService.setUpdateFilter();
+    this.router.navigate(['/']);
   }
 
   setCategory(category: Category, city: City) {
     this.defineLocationServices.setCityId(city.id);
     this.defineLocationServices.setCategory(category.id);
     this.dataService.setUpdateCategory();
-    this.dataService.setUpdateFilter()
+    this.dataService.setUpdateFilter();
+    this.router.navigate(['/']);
   }
 }

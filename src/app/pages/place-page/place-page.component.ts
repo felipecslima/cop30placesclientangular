@@ -33,8 +33,10 @@ export class PlacePageComponent implements OnInit, OnDestroy {
     private defineLocationServices: DefineLocationServices,
     private apiServices: ApiServices
   ) {
-
     const placeSlug = this.route.snapshot.paramMap.get('placeSlug');
+
+    this.place = this.dataService.getCategoryPlaces()?.find(cp => cp.place.slug === placeSlug)?.place
+
     this.loading = true;
     this.apiServices.getCategoryPlacesByPlaceSlug(placeSlug)
       .pipe(
@@ -42,7 +44,6 @@ export class PlacePageComponent implements OnInit, OnDestroy {
           const [categoryPlace] = categoryPlaces;
           this.place = categoryPlace?.place;
           this.categoryPlaces = categoryPlaces;
-          console.log(this.categoryPlaces);
           this.loading = false;
         })
       )
