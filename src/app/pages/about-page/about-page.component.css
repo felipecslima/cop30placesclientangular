@@ -1,0 +1,10 @@
+.button-white {
+  a {
+    color: white;
+    border-color: white;
+  }
+}
+
+html body .mat-expansion-panel {
+  box-shadow: none;
+}

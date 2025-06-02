@@ -13,4 +13,10 @@ export const routes: Routes = [
       import('./pages/place-page/place-page.component').then((m) => m.PlacePageComponent),
     data: { animation: 'PlacePage' }
   },
+  {
+    path: 'sobre/:aboutSlug',
+    loadComponent: () =>
+      import('./pages/about-page/about-page.component').then((m) => m.AboutPageComponent),
+    data: { animation: 'PlacePage' }
+  },
 ];

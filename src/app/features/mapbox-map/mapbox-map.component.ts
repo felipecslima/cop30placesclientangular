@@ -1,4 +1,4 @@
-// mapbox-place-page.component.ts
+// mapbox-about-page.component.ts
 import {
   AfterViewInit,
   Component,

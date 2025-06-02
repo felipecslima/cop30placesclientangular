@@ -1,0 +1,45 @@
+@if (loading) {
+  <div class="fixed top-0 w-dvh">
+    <mat-progress-bar mode="indeterminate"/>
+  </div>
+}
+<div *ngIf="about" class="relative flex items-center min-h-[50dvh] isolate overflow-hidden py-24 sm:py-32">
+  <!-- Imagem de fundo -->
+  <div
+    class="absolute inset-0 -z-20 bg-cover bg-center"
+    [ngStyle]="{
+      'background-image': 'url(' + about?.images?.[0]?.url + ')'
+    }"
+  ></div>
+
+  <!-- Overlay com escurecimento -->
+  <div class="absolute inset-0 -z-10 bg-black/80"></div>
+
+  <!-- Conteúdo centralizado -->
+  <div class="relative z-10 flex items-center justify-center px-6 text-center text-white w-full">
+    <div class="max-w-3xl w-full space-y-10">
+      <h1 class="text-5xl font-bold tracking-tight sm:text-7xl animate-fadeInUp">
+        {{ about?.title }}
+      </h1>
+      <h2 class="text-xl font-medium tracking-tight sm:text-3xl animate-fadeInUp">
+        {{ about?.subtitle }}
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="about" class="relative px-4 sm:px-6 lg:px-8 py-12">
+  <div class="max-w-3xl mx-auto space-y-6">
+    @for (detail of about.details; track detail) {
+      <p>
+        @for (children of detail.children; track children) {
+          @if (children.bold) {
+            <span class="font-bold"> {{ children.text }}</span>
+          } @else {
+            {{ children.text }}
+          }
+        }
+      </p>
+    }
+  </div>
+</div>

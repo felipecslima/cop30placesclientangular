@@ -57,12 +57,15 @@
 <div *ngIf="place" class="relative px-4 sm:px-6 lg:px-8 py-12">
   <div class="max-w-3xl mx-auto text-center space-y-6">
     @for (detail of place.details; track detail) {
-      @for (children of detail.children; track children) {
-        <p
-          class=""
-          [innerHTML]="children.text"
-        ></p>
-      }
+      <p>
+        @for (children of detail.children; track children) {
+          @if (children.bold) {
+            <span class="font-bold"> {{ children.text }}</span>
+          } @else {
+            {{ children.text }}
+          }
+        }
+      </p>
     }
   </div>
 </div>

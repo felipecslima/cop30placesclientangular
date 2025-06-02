@@ -20,6 +20,19 @@ export class ApiServices {
     );
   }
 
+
+  getAbout(slug: string): Observable<About> {
+    const url = `${ environment.apiUrl }/about` +
+      `?filters[slug][$eq]=${ slug }` +
+      `&populate=*`;
+    return this._http.get<any>(url).pipe(
+      map((response: any) => {
+        console.log(response);
+        return response?.data
+      })
+    );
+  }
+
   getPlaces(): Observable<Place[]> {
     return this._http.get<any>(`${ environment.apiUrl }/places?pagination[page]=1&pagination[pageSize]=100&populate=*`).pipe(
       map((response: PlaceResponse) => this.adjustResponse(response))
@@ -150,6 +163,15 @@ export class ApiServices {
   }
 }
 
+export interface About {
+  id: number;
+  slug: string;
+  details: Detail[];
+  images: Image[];
+  title: string;
+  subtitle: string;
+}
+
 export interface CategoryPlaceResponse {
   data: CategoryPlace[];
   meta: Meta;
@@ -247,6 +269,7 @@ export interface Detail {
 export interface DetailChildren {
   text: string;
   type: string;
+  bold?: boolean;
 }
 
 export interface Image {
