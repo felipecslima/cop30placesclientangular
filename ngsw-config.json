@@ -45,7 +45,7 @@
       "installMode": "prefetch",
       "resources": {
         "files": [
-          "/favicon.ico",
+          "/assets/favicon/favicon.ico",
           "/index.csr.html",
           "/index.html",
           "/manifest.webmanifest",
