@@ -8,6 +8,8 @@ import { MaterialModule } from '../../shared/ material.module';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgForOf, NgIf, NgStyle } from '@angular/common';
+import { environment } from '../../../environments/environment';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'about-page',
@@ -24,6 +26,7 @@ export class AboutPageComponent implements OnInit, OnDestroy {
   about: any;
 
   constructor(
+    private seoService: SeoService,
     private route: ActivatedRoute,
     private snackBarService: SnackbarService,
     private apiServices: ApiServices
@@ -35,6 +38,13 @@ export class AboutPageComponent implements OnInit, OnDestroy {
       .pipe(
         tap(about => {
           this.about = about;
+          this.seoService.updateTags({
+            title: about.title,
+            image: about?.images[0]?.url ?? undefined,
+            description: about.subtitle,
+            url: `${ environment.loginRedirect }/sobre/${ aboutSlug }`
+          });
+
           this.loading = false;
         })
       )

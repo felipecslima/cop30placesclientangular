@@ -3,11 +3,12 @@ import { ApiServices, CategoryPlace, Place } from '../../core/services/api.servi
 import { Subscription, tap } from 'rxjs';
 import { AutoUnsubscribe, CombineSubscriptions } from '../../shared/decorators/auto-unsubscribe.decorator';
 import { DataServices } from '../../shared/services/data.services';
-import { DefineLocationServices } from '../../shared/services/define.location.services';
 import { MaterialModule } from '../../shared/ material.module';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgForOf, NgIf, NgStyle } from '@angular/common';
+import { SeoService } from '../../shared/services/seo.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'place-page',
@@ -27,22 +28,23 @@ export class PlacePageComponent implements OnInit, OnDestroy {
 
 
   constructor(
+    private seoService: SeoService,
     private route: ActivatedRoute,
     private snackBarService: SnackbarService,
     private dataService: DataServices,
-    private defineLocationServices: DefineLocationServices,
     private apiServices: ApiServices
   ) {
     const placeSlug = this.route.snapshot.paramMap.get('placeSlug');
 
-    this.place = this.dataService.getCategoryPlaces()?.find(cp => cp.place.slug === placeSlug)?.place
-
+    this.place = this.dataService.getCategoryPlaces()?.find(cp => cp.place.slug === placeSlug)?.place;
+    this.setSeo();
     this.loading = true;
     this.apiServices.getCategoryPlacesByPlaceSlug(placeSlug)
       .pipe(
         tap(categoryPlaces => {
           const [categoryPlace] = categoryPlaces;
           this.place = categoryPlace?.place;
+          this.setSeo();
           this.categoryPlaces = categoryPlaces;
           this.loading = false;
         })
@@ -68,5 +70,23 @@ export class PlacePageComponent implements OnInit, OnDestroy {
 
   openImage(url: string): void {
     this.selectedImage = url;
+  }
+
+
+  setSeo() {
+    if (this.place) {
+      const detailArr = [];
+      this.place.details.forEach(detail => {
+        return detail.children.forEach(c => {
+          detailArr.push(c.text);
+        });
+      });
+      this.seoService.updateTags({
+        title: this.place?.name,
+        image: this.place?.images[0]?.url ?? undefined,
+        description: detailArr?.join(' ') ?? undefined,
+        url: `${ environment.loginRedirect }/lugar/${ this.place?.slug }`
+      });
+    }
   }
 }

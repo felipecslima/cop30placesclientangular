@@ -9,6 +9,8 @@ import { MaterialModule } from '../../shared/ material.module';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 import { NgIf } from '@angular/common';
 import { CategoryService } from '../../shared/services/category.service';
+import { environment } from '../../../environments/environment';
+import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'app-map',
@@ -25,12 +27,16 @@ export class MapComponent implements OnInit, OnDestroy {
   filters: { label: string; value: number, bgColor?: string, color?: string }[] = [];
 
   constructor(
+    private seoService: SeoService,
     private categoryService: CategoryService,
     private snackBarService: SnackbarService,
     private dataService: DataServices,
     private defineLocationServices: DefineLocationServices,
     private apiServices: ApiServices
   ) {
+
+    this.seoService.updateTags({});
+
     this.subscriptions = this.dataService.getUpdateLocation().pipe(
       filter(() => !this.defineLocationServices.getCategoryId()),
       map(() => this.defineLocationServices.getCityId()),
