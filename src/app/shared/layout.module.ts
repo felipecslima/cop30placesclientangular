@@ -4,7 +4,7 @@ import { MaterialModule } from './ material.module';
 import { ShellComponent } from './layout/shell/shell.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MapboxMapComponent } from '../features/mapbox-map/mapbox-map.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OpenStreetMapComponent } from '../features/openstreet-map/openstreetmap-map.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MaterialModule,
     CommonModule,
     MapboxMapComponent,
+    OpenStreetMapComponent,
     RouterLink
   ]
 })
-export class LayoutModule { }
+export class LayoutModule {
+}

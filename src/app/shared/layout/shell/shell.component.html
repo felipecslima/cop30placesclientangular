@@ -22,7 +22,7 @@
             <mat-panel-title>{{ city.city }}</mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list class="menu">
-            <button class="city-btn" (click)="setPlace(city); sidenavRight.close()" type="button" mat-list-item>
+            <button class="city-btn" (click)="setPlace(city); sidenavRight?.close()" type="button" mat-list-item>
               Filtrar por {{ city.city }}
             </button>
             @for (category of city.categories; track category.id) {
@@ -42,7 +42,7 @@
         </mat-expansion-panel>
       }
     </mat-accordion>
-    <a routerLink="/sobre/bel-regia-map" (click)="sidenavRight.close()" type="button" mat-list-item>
+    <a routerLink="/sobre/bel-regia-map" (click)="sidenavRight?.close()" type="button" mat-list-item>
       Sobre o projeto
     </a>
   </mat-sidenav>

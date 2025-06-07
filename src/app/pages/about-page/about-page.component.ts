@@ -1,19 +1,17 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnDestroy, OnInit } from '@angular/core';
-import { ApiServices, CategoryPlace, Place } from '../../core/services/api.service';
+import { ApiServices } from '../../core/services/api.service';
 import { Subscription, tap } from 'rxjs';
 import { AutoUnsubscribe, CombineSubscriptions } from '../../shared/decorators/auto-unsubscribe.decorator';
-import { DataServices } from '../../shared/services/data.services';
-import { DefineLocationServices } from '../../shared/services/define.location.services';
 import { MaterialModule } from '../../shared/ material.module';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgForOf, NgIf, NgStyle } from '@angular/common';
+import { NgIf, NgStyle } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { SeoService } from '../../shared/services/seo.service';
 
 @Component({
   selector: 'about-page',
-  imports: [MaterialModule, NgStyle, NgIf, NgForOf],
+  imports: [MaterialModule, NgStyle, NgIf],
   templateUrl: './about-page.component.html',
   styleUrl: './about-page.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA] // <- aqui

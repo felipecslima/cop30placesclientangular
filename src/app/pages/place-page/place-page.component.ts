@@ -36,7 +36,11 @@ export class PlacePageComponent implements OnInit, OnDestroy {
   ) {
     const placeSlug = this.route.snapshot.paramMap.get('placeSlug');
 
-    this.place = this.dataService.getCategoryPlaces()?.find(cp => cp.place.slug === placeSlug)?.place;
+    console.log(this.dataService.getCategoryPlaces().map(cp => {
+      return `${ cp?.id }-${ cp?.place?.slug }`;
+    }));
+
+    this.place = this.dataService.getCategoryPlaces()?.find(cp => cp?.place?.slug === placeSlug)?.place;
     this.setSeo();
     this.loading = true;
     this.apiServices.getCategoryPlacesByPlaceSlug(placeSlug)
@@ -83,7 +87,7 @@ export class PlacePageComponent implements OnInit, OnDestroy {
       });
       this.seoService.updateTags({
         title: this.place?.name,
-        image: this.place?.images[0]?.url ?? undefined,
+        image: this.place?.images?.length ? this.place?.images[0]?.url : undefined,
         description: detailArr?.join(' ') ?? undefined,
         url: `${ environment.loginRedirect }/lugar/${ this.place?.slug }`
       });

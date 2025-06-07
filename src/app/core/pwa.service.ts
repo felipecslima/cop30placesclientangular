@@ -5,7 +5,6 @@ import { filter } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class PwaService {
   constructor(private swUpdate: SwUpdate) {
-    console.log('swUpdate');
     if (swUpdate.isEnabled) {
       this.swUpdate.versionUpdates
         .pipe(

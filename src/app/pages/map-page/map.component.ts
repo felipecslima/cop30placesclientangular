@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MapboxMapComponent } from '../../features/mapbox-map/mapbox-map.component';
 import { ApiServices, CategoryPlace } from '../../core/services/api.service';
 import { distinctUntilChanged, filter, map, Subscription, switchMap, tap } from 'rxjs';
 import { AutoUnsubscribe, CombineSubscriptions } from '../../shared/decorators/auto-unsubscribe.decorator';
@@ -9,12 +8,12 @@ import { MaterialModule } from '../../shared/ material.module';
 import { SnackbarService } from '../../shared/services/snackbar.service';
 import { NgIf } from '@angular/common';
 import { CategoryService } from '../../shared/services/category.service';
-import { environment } from '../../../environments/environment';
 import { SeoService } from '../../shared/services/seo.service';
+import { OpenStreetMapComponent } from '../../features/openstreet-map/openstreetmap-map.component';
 
 @Component({
   selector: 'app-map',
-  imports: [MapboxMapComponent, MaterialModule, NgIf],
+  imports: [OpenStreetMapComponent, MaterialModule, NgIf],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })

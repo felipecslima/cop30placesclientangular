@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Estilização dos tooltips e popups do Leaflet, se desejar sobrescrever */
+.leaflet-container {
+  z-index: 0; /* mantém o mapa no fundo */
+}
+
+/* Evita que o botão seja sobreposto */
+button[mat-icon-button] {
+  background: white;
+  border-radius: 9999px; /* full rounded */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
